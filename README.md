@@ -1,5 +1,5 @@
 # Installation instructions
 
 * `composer install`
-* `cp .env.example .env`
+* `php artisan env:setup`
 * `php artisan install`

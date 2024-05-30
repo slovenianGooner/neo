@@ -33,10 +33,6 @@ class InstallCommand extends Command
     {
         info('Welcome to the [neo] installation.');
 
-        // What is your project name?
-        $folderName = basename(getcwd());
-        $projectName = text('Enter the project name', default: $folderName);
-
         // Generate application key
         $this->call('key:generate');
 
@@ -47,16 +43,6 @@ class InstallCommand extends Command
 
         // Link storage
         $this->call('storage:link');
-
-        // Replace APP_NAME={project_name} in .env
-        file_put_contents('.env', preg_replace('/APP_NAME=(.*)/', 'APP_NAME=' . $projectName, file_get_contents('.env')));
-
-        // Replace APP_URL={app_url} in .env with the name of the folder
-        file_put_contents('.env', preg_replace('/APP_URL=(.*)/', 'APP_URL=' . 'http://' . $folderName . '.test', file_get_contents('.env')));
-
-        // Replace DB_DATABASE={database_name} in .env
-        $databaseName = text('Enter the database name', default: $projectName);
-        file_put_contents('.env', preg_replace('/DB_DATABASE=(.*)/', 'DB_DATABASE=' . $databaseName, file_get_contents('.env')));
 
         // Migrate database
         if ($this->option('fresh')) {
