@@ -37,12 +37,6 @@ class InstallCommand extends Command
         $folderName = basename(getcwd());
         $projectName = text('Enter the project name', default: $folderName);
 
-        // Copy .env.example to .env
-        if (!file_exists('.env')) {
-            copy('.env.example', '.env');
-            info('.env file created');
-        }
-
         // Generate application key
         $this->call('key:generate');
 
