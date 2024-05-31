@@ -1,5 +1,5 @@
 @props([
-    'pages' => \App\Models\Page::root()->orderBy('_lft')->get(),
+    'pages' => \App\Models\Page::query()->whereNull('parent_id')->orderBy('_lft')->get(),
     'isRoot' => true
 ])
 
