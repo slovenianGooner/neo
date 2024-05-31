@@ -9,6 +9,8 @@
             <div class="prose">
                 {!! $post->body !!}
             </div>
+            <x-gallery :gallery="$post->getMedia('gallery')"/>
+            <x-files :files="$post->getMedia('files')"/>
         @endforeach
     </div>
 </x-layout>

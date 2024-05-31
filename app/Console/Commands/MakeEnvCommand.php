@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use function Laravel\Prompts\info as info;
+use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 class MakeEnvCommand extends Command
@@ -31,5 +32,15 @@ class MakeEnvCommand extends Command
         // Replace DB_DATABASE={database_name} in .env
         $databaseName = text('Enter the database name', default: $projectName);
         file_put_contents('.env', preg_replace('/DB_DATABASE=(.*)/', 'DB_DATABASE=' . $databaseName, file_get_contents('.env')));
+
+        // Remove git folder to squash the git history
+        exec('rm -rf .git');
+
+        // Would you like to init a new git repository?
+        $newRepository = select('Would you like to init a new git repository? (yes/no)', ['yes', 'no']);
+        if ($newRepository === 'yes') {
+            exec('git init');
+            info('Initialized a new git repository.');
+        }
     }
 }
