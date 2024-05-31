@@ -5,12 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 
 class PagePost extends Model implements HasMedia
 {
-    use HasSlug, InteractsWithMedia;
+    use InteractsWithMedia;
 
     protected $table = 'page_posts';
 
@@ -21,11 +19,6 @@ class PagePost extends Model implements HasMedia
         'body',
         'order'
     ];
-
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()->generateSlugsFrom('title')->saveSlugsTo('slug');
-    }
 
     public static function booted(): void
     {

@@ -35,6 +35,11 @@ class Page extends Model
         return $this->hasMany(PagePost::class, 'page_id');
     }
 
+    public function getUrl(): string
+    {
+        return route($this->getRouteName());
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()->generateSlugsFrom('title')->saveSlugsTo('slug');
@@ -45,13 +50,36 @@ class Page extends Model
         return $this->ancestors()->count();
     }
 
+    public function getRouteName(): string
+    {
+        return 'pages.show.' . $this->id;
+    }
+
+    public function getNestedSlug(): string
+    {
+        return $this->ancestors()->pluck('slug')->push($this->slug)->implode('/');
+    }
+
+    public function getIndentedTitle(int $startingDepth = 0): string
+    {
+        // Figure out how deep the page is in the tree
+        $depth = $this->getDepth();
+
+        if ($depth > $startingDepth) {
+            // If it's not the root page, add a dash for each level
+            return str_repeat('&mdash;&mdash;', $depth - $startingDepth) . ' ' . $this->title;
+        }
+
+        return $this->title;
+    }
+
     public function isActive(): bool
     {
-        return Route::currentRouteName() === 'pages.show.' . $this->id;
+        return Route::currentRouteName() === $this->getRouteName();
     }
 
     public function isChildActive(): bool
     {
-        return $this->descendants->pluck('id')->map(fn($id) => 'pages.show.' . $id)->contains(Route::currentRouteName());
+        return $this->descendants->get()->map(fn(Page $page) => $page->getRouteName())->contains(Route::currentRouteName());
     }
 }
