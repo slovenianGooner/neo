@@ -17,6 +17,11 @@ class MakeEnvCommand extends Command
         $folderName = basename(getcwd());
         $projectName = text('Enter the project name', default: $folderName);
 
+        if (!file_exists('.env')) {
+            copy('.env.example', '.env');
+            info('Created .env file.');
+        }
+
         // Replace APP_NAME={project_name} in .env
         file_put_contents('.env', preg_replace('/APP_NAME=(.*)/', 'APP_NAME=' . $projectName, file_get_contents('.env')));
 
