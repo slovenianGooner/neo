@@ -1,5 +1,5 @@
 <x-layout :page-title="config('neo.posts_title')">
-    <div class="p-4 mx-auto max-w-screen-lg mt-24 space-y-4">
+    <div class="p-4 mx-auto max-w-7xl space-y-4">
         <div>
             <h1 class="font-bold text-xl">{{ config('neo.posts_title') }}</h1>
         </div>

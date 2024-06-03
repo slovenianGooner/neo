@@ -19,6 +19,8 @@ class EditTemplateData extends EditRecord
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
+    protected static ?string $title = 'Template Data';
+
     public function form(Form $form): Form
     {
         if (!$this->record->template) {

@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Route;
 use Kalnoy\Nestedset\NodeTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Page extends Model
+class Page extends Model implements HasMedia
 {
-    use HasSlug, NodeTrait;
+    use HasSlug, NodeTrait, InteractsWithMedia;
 
     protected $fillable = [
         'parent_id',

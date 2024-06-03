@@ -13,19 +13,10 @@
     @vite('resources/css/website.css')
 
 </head>
-<body class="bg-white">
-<x-navigation>
-    <x-slot:logo>
-        <a href="{{ route('home') }}">
-            {{ config('app.name') }}
-        </a>
-    </x-slot:logo>
-    <x-slot:prepend>
-        <a href="{{ route('home') }}" class="text-gray-900 hover:text-gray-700">Home</a>
-        <a href="{{ route('posts') }}" class="text-gray-900 hover:text-gray-700">Posts</a>
-    </x-slot:prepend>
-</x-navigation>
+<body class="bg-white pt-16">
+<x-navigation/>
 {{ $slot }}
+<x-footer/>
 @stack('js')
 </body>
 </html>
