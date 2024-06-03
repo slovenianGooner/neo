@@ -10,6 +10,8 @@ class EditPage extends EditRecord
 {
     protected static string $resource = PageResource::class;
 
+    protected static ?string $navigationLabel = 'General';
+
     protected function getHeaderActions(): array
     {
         return [

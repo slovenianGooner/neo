@@ -16,13 +16,18 @@ class Page extends Model
     protected $fillable = [
         'parent_id',
         'active',
+        'homepage',
         'title',
         'slug',
+        'template',
+        'template_data',
         'body'
     ];
 
     protected $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
+        'homepage' => 'boolean',
+        'template_data' => 'json'
     ];
 
     public function rootParent(): ?Model
@@ -81,5 +86,45 @@ class Page extends Model
     public function isChildActive(): bool
     {
         return $this->descendants->get()->map(fn(Page $page) => $page->getRouteName())->contains(Route::currentRouteName());
+    }
+
+    public function canMoveUp(): bool
+    {
+        // We can move up if the page is the lowest "_lft" compared to its siblings
+        return $this->siblings()->where('_lft', '<', $this->_lft)->count() > 0;
+    }
+
+    public function canMoveDown(): bool
+    {
+        // We can move down if the page is the highest "_lft" compared to its siblings
+        return $this->siblings()->where('_lft', '>', $this->_lft)->count() > 0;
+    }
+
+    public function moveUp(): void
+    {
+        if (!$this->canMoveUp()) {
+            return;
+        }
+
+        // Get previous sibling
+        /**
+         * @var $neighbor Page
+         */
+        $neighbor = $this->siblings()->where('_lft', '<', $this->_lft)->orderBy('_lft', 'desc')->first();
+        $this->beforeNode($neighbor)->save();
+    }
+
+    public function moveDown(): void
+    {
+        if (!$this->canMoveDown()) {
+            return;
+        }
+
+        // Get next sibling
+        /**
+         * @var $neighbor Page
+         */
+        $neighbor = $this->siblings()->where('_lft', '>', $this->_lft)->orderBy('_lft')->first();
+        $this->afterNode($neighbor)->save();
     }
 }

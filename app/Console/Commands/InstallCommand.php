@@ -60,12 +60,12 @@ class InstallCommand extends Command
         $primaryColor = select(
             label: 'Choose the primary color for the admin panel',
             options: collect(array_keys($colors))->mapWithKeys(fn($color) => [$color => Str::title($color)])->toArray(),
-            default: config('filament.primary_color'),
+            default: config('neo.primary_color'),
             hint: 'You can change this later in the .env file'
         );
 
-        // Replace FILAMENT_PRIMARY_COLOR={primary_color} in .env
-        file_put_contents('.env', preg_replace('/FILAMENT_PRIMARY_COLOR=(.*)/', 'FILAMENT_PRIMARY_COLOR=' . $primaryColor, file_get_contents('.env')));
+        // Replace NEO_PRIMARY_COLOR={primary_color} in .env
+        file_put_contents('.env', preg_replace('/NEO_PRIMARY_COLOR=(.*)/', 'NEO_PRIMARY_COLOR=' . $primaryColor, file_get_contents('.env')));
 
         // Run npm install & build
         if (file_exists('package.json')) {

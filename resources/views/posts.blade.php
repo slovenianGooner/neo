@@ -1,7 +1,7 @@
-<x-layout :page-title="config('filament.posts_title')">
+<x-layout :page-title="config('neo.posts_title')">
     <div class="p-4 mx-auto max-w-screen-lg mt-24 space-y-4">
         <div>
-            <h1 class="font-bold text-xl">{{ config('filament.posts_title') }}</h1>
+            <h1 class="font-bold text-xl">{{ config('neo.posts_title') }}</h1>
         </div>
         <div
             class="grid grid-cols-1 gap-x-8 gap-y-20 lg:grid-cols-3">

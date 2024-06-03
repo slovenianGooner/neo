@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->topNavigation()
             ->login()
             ->colors([
-                'primary' => Color::all()[config('filament.primary_color')],
+                'primary' => Color::all()[config('neo.primary_color')],
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
