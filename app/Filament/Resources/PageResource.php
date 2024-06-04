@@ -15,6 +15,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Table;
 use Filament\Tables;
+use FilamentTiptapEditor\TiptapEditor;
 
 class PageResource extends Resource
 {
@@ -51,8 +52,10 @@ class PageResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('slug')
                     ->maxLength(255),
-                Forms\Components\RichEditor::make('body')
-                    ->columnSpanFull(),
+                TiptapEditor::make('body')
+                    ->columnSpanFull()
+                    ->required()
+                    ->maxContentWidth('full'),
                 Forms\Components\Select::make('template')
                     ->columnStart(1)
                     ->label('Template')

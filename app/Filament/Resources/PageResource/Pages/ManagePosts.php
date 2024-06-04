@@ -8,6 +8,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\Enums\TiptapOutput;
+use FilamentTiptapEditor\TiptapEditor;
 
 class ManagePosts extends ManageRelatedRecords
 {
@@ -29,8 +31,9 @@ class ManagePosts extends ManageRelatedRecords
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\RichEditor::make('body')
+                TiptapEditor::make('body')
                     ->columnSpanFull()
+                    ->maxContentWidth('full')
                     ->required(),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('gallery')
                     ->collection('gallery')

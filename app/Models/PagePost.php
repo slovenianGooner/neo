@@ -20,6 +20,10 @@ class PagePost extends Model implements HasMedia
         'order'
     ];
 
+    protected $casts = [
+        'published' => 'boolean',
+    ];
+
     public static function booted(): void
     {
         static::creating(function ($pagePost) {

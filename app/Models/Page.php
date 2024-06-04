@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Kalnoy\Nestedset\NodeTrait;
 use Spatie\MediaLibrary\HasMedia;
@@ -128,5 +129,10 @@ class Page extends Model implements HasMedia
          */
         $neighbor = $this->siblings()->where('_lft', '>', $this->_lft)->orderBy('_lft')->first();
         $this->afterNode($neighbor)->save();
+    }
+
+    public static function getForNavigation(?int $parentId = null): Collection
+    {
+        return static::where('active', true)->where('parent_id', $parentId)->where('homepage', false)->orderBy('_lft')->get();
     }
 }

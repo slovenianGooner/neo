@@ -7,13 +7,9 @@ use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables;
+use FilamentTiptapEditor\TiptapEditor;
 
 class PostResource extends Resource
 {
@@ -39,8 +35,9 @@ class PostResource extends Resource
                     ->imageResizeTargetWidth(800)
                     ->imageResizeTargetHeight(800)
                     ->required(),
-                Forms\Components\RichEditor::make('body')
+                TiptapEditor::make('body')
                     ->columnSpanFull()
+                    ->maxContentWidth('full')
                     ->required(),
                 Forms\Components\SpatieMediaLibraryFileUpload::make('gallery')
                     ->collection('gallery')
