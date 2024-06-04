@@ -135,4 +135,14 @@ class Page extends Model implements HasMedia
     {
         return static::where('active', true)->where('parent_id', $parentId)->where('homepage', false)->orderBy('_lft')->get();
     }
+
+    public static function getHomepage(): ?self
+    {
+        return static::where('homepage', true)->first();
+    }
+
+    public function getTemplateViewAttribute(): string
+    {
+        return $this->template ? 'page-templates.' . $this->template : 'page';
+    }
 }
