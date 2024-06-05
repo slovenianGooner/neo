@@ -2,14 +2,18 @@
     <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
         <nav class="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
             <div class="pb-6">
-                <a href="{{ route('home') }}"
-                   class="text-sm leading-6 text-gray-600 hover:text-gray-900">{{ config('neo.homepage_title') }}</a>
+                <a href="{{ route('home.' . $locale) }}"
+                   class="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                    {{ Lang::get('neo.homepage_title', locale: $locale) }}
+                </a>
             </div>
             <div class="pb-6">
-                <a href="{{ route('posts') }}"
-                   class="text-sm leading-6 text-gray-600 hover:text-gray-900">{{ config('neo.posts_title') }}</a>
+                <a href="{{ route('posts.' . $locale) }}"
+                   class="text-sm leading-6 text-gray-600 hover:text-gray-900">
+                    {{ Lang::get('neo.posts_title', locale: $locale) }}
+                </a>
             </div>
-            @foreach(\App\Models\Page::getForNavigation() as $page)
+            @foreach(\App\Models\Page::getForNavigation($locale) as $page)
                 <div class="pb-6">
                     <a href="{{ $page->getUrl() }}"
                        class="text-sm leading-6 text-gray-600 hover:text-gray-900">{{ $page->title }}</a>

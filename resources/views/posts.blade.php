@@ -1,8 +1,10 @@
-<x-layout :page-title="config('neo.posts_title')">
+@use('Illuminate\Support\Facades\Lang')
+
+<x-layout :page-title="Lang::get('neo.posts_title', locale: $locale)">
     <div class="bg-white py-24 sm:py-32 max-w-7xl mx-auto">
         <div class="px-6 lg:px-8">
             <div>
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ config('neo.posts_title') }}</h2>
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ Lang::get('neo.posts_title', locale: $locale) }}</h2>
             </div>
             <div class="mx-auto mt-16 grid max-w-none grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:grid-cols-3">
                 @forelse($posts as $post)

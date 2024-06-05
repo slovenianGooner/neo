@@ -1,5 +1,7 @@
+@use('Illuminate\Support\Facades\Lang')
+
 @props([
-    'pages' => \App\Models\Page::getForNavigation(),
+    'pages' => \App\Models\Page::getForNavigation($locale),
     'isRoot' => true
 ])
 
@@ -9,15 +11,19 @@
 
 <header class="bg-white w-full fixed top-0 left-0 z-10" x-data="{ open: false }">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div class="flex items-center gap-x-12"><a href="{{ route('home') }}" class="-m-1.5 p-1.5">
+        <div class="flex items-center gap-x-12"><a href="{{ route('home.' . $locale) }}" class="-m-1.5 p-1.5">
                 <span class="sr-only">{{ config("app.name") }}</span>
                 <span class="font-bold text-lg">[{{ config("app.name") }}]</span>
             </a>
             <div class="hidden lg:flex lg:gap-x-12">
-                <a href="{{ route('home') }}"
-                   class="text-sm font-semibold leading-6 {{ Route::is('home') ? 'text-indigo-600' : 'text-gray-900' }}">Home</a>
-                <a href="{{ route('posts') }}"
-                   class="text-sm font-semibold leading-6 {{ Route::is('posts') ? 'text-indigo-600' : 'text-gray-900' }}">Posts</a>
+                <a href="{{ route('home.' . $locale) }}"
+                   class="text-sm font-semibold leading-6 {{ Route::is('home.' . $locale) ? 'text-indigo-600' : 'text-gray-900' }}">
+                    {{ Lang::get('neo.homepage_title', locale: $locale) }}
+                </a>
+                <a href="{{ route('posts.' . $locale) }}"
+                   class="text-sm font-semibold leading-6 {{ Route::is('posts.' . $locale) ? 'text-indigo-600' : 'text-gray-900' }}">
+                    {{ Lang::get('neo.posts_title', locale: $locale) }}
+                </a>
                 @foreach($pages as $page)
                     <a href="{{ $page->getUrl() }}"
                        class="text-sm font-semibold leading-6 {{ $page->isActive() ? 'text-indigo-600' : 'text-gray-900' }}">{{ $page->title }}</a>
@@ -35,6 +41,16 @@
                 </svg>
             </button>
         </div>
+        @if ($hasMultipleLocales)
+            <div class="hidden lg:flex space-x-4">
+                @foreach(config('neo.locales') as $key => $label)
+                    <a href="{{ route('home.' . $key) }}"
+                       class="text-sm font-semibold leading-6 text-gray-900 uppercase px-1.5 rounded {{ $locale === $key ? 'bg-gray-900 text-white' : '' }}">
+                        {{ $key }}
+                    </a>
+                @endforeach
+            </div>
+        @endif
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->
     <div class="lg:hidden" role="dialog" aria-modal="true" x-show="open" x-cloak>
@@ -43,7 +59,7 @@
         <div
             class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div class="flex items-center justify-between">
-                <a href="{{ route('home') }}" class="-m-1.5 p-1.5">
+                <a href="{{ route('home.' . $locale) }}" class="-m-1.5 p-1.5">
                     <span class="sr-only">{{ config('app.name') }}</span>
                     <span class="font-bold text-lg">[{{ config("app.name") }}]</span>
                 </a>
@@ -57,10 +73,10 @@
             </div>
             <div class="mt-6 flow-root">
                 <div class="space-y-2 py-6">
-                    <a href="{{ route('home') }}"
-                       class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 {{ Route::is('home') ? 'text-indigo-600' : 'text-gray-900' }} hover:bg-gray-50">Home</a>
-                    <a href="{{ route('posts') }}"
-                       class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 {{ Route::is('posts') ? 'text-indigo-600' : 'text-gray-900' }} hover:bg-gray-50">Posts</a>
+                    <a href="{{ route('home.' . $locale) }}"
+                       class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 {{ Route::is('home.' . $locale) ? 'text-indigo-600' : 'text-gray-900' }} hover:bg-gray-50">Home</a>
+                    <a href="{{ route('posts.' . $locale) }}"
+                       class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 {{ Route::is('posts.' . $locale) ? 'text-indigo-600' : 'text-gray-900' }} hover:bg-gray-50">Posts</a>
                     @foreach($pages as $page)
                         <a href="{{ $page->getUrl() }}"
                            class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 {{ $page->isActive() ? 'text-indigo-600' : 'text-gray-900' }} hover:bg-gray-50">{{ $page->title }}</a>

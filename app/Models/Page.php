@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\LanguageScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -12,6 +14,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
+#[ScopedBy([LanguageScope::class])]
 class Page extends Model implements HasMedia
 {
     use HasSlug, NodeTrait, InteractsWithMedia;
@@ -22,6 +25,7 @@ class Page extends Model implements HasMedia
         'homepage',
         'title',
         'slug',
+        'locale',
         'template',
         'template_data',
         'body'
@@ -32,6 +36,13 @@ class Page extends Model implements HasMedia
         'homepage' => 'boolean',
         'template_data' => 'json'
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (Page $page) {
+            $page->locale = session('locale', 'en');
+        });
+    }
 
     public function rootParent(): ?Model
     {
@@ -63,9 +74,9 @@ class Page extends Model implements HasMedia
         return 'pages.show.' . $this->id;
     }
 
-    public function getNestedSlug(): string
+    public function getNestedSlug(string $locale): string
     {
-        return $this->ancestors()->pluck('slug')->push($this->slug)->implode('/');
+        return $this->ancestors()->withoutGlobalScope(LanguageScope::class)->where('locale', $locale)->pluck('slug')->push($this->slug)->implode('/');
     }
 
     public function getIndentedTitle(int $startingDepth = 0): string
@@ -131,14 +142,20 @@ class Page extends Model implements HasMedia
         $this->afterNode($neighbor)->save();
     }
 
-    public static function getForNavigation(?int $parentId = null): Collection
+    public static function getForNavigation(string $locale, ?int $parentId = null): Collection
     {
-        return static::where('active', true)->where('parent_id', $parentId)->where('homepage', false)->orderBy('_lft')->get();
+        return static::withoutGlobalScope(LanguageScope::class)
+            ->where('active', true)
+            ->where('parent_id', $parentId)
+            ->where('homepage', false)
+            ->where('locale', $locale)
+            ->orderBy('_lft')
+            ->get();
     }
 
-    public static function getHomepage(): ?self
+    public static function getHomepage(string $locale): ?self
     {
-        return static::where('homepage', true)->first();
+        return static::withoutGlobalScope(LanguageScope::class)->where('homepage', true)->where('locale', $locale)->first();
     }
 
     public function getTemplateViewAttribute(): string

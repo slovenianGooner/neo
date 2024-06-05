@@ -2,17 +2,27 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\LanguageScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
+#[ScopedBy([LanguageScope::class])]
 class Post extends Model implements HasMedia
 {
     use HasSlug, InteractsWithMedia;
 
-    protected $fillable = ['published', 'title', 'slug', 'body'];
+    protected $fillable = ['published', 'title', 'slug', 'locale', 'body'];
+
+    protected static function booted(): void
+    {
+        static::saving(function (Post $post) {
+            $post->locale = session('locale', 'en');
+        });
+    }
 
     public function getUrl(array $query = []): string
     {
