@@ -1,12 +1,12 @@
 @component('mail::message')
-    # New Contact Us Form Submission
+    # {{ word('neo.contact_us_mail_subject') }}
 
-    There has been a new submission to the contact form on the website. Below are the details:
+    {{ word('neo.contact_us_mail_message') }}
 
-    - **Name:** {{ $name }}
-    - **Email:** {{ $email }}
-    - **Message:** {{ $message }}
+    - **{{ word('neo.name') }}**: {{ $name }}
+    - **{{ word('neo.email') }}**: {{ $email }}
+    - **{{ word('neo.message') }}**: {{ $message }}
 
-    Thanks,<br>
+    {{ word('neo.thanks') }},<br>
     {{ config('app.name') }}
 @endcomponent

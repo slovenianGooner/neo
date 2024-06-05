@@ -9,6 +9,6 @@ return [
     'default_locale' => env('NEO_DEFAULT_LOCALE', 'en'),
     'locales' => [
         'en' => 'English',
-//        'sl' => 'Slovenian'
+        'sl' => 'Slovenian'
     ],
 ];

@@ -2,15 +2,15 @@
     <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
         <nav class="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
             <div class="pb-6">
-                <a href="{{ route('home.' . $locale) }}"
+                <a href="{{ local_route('home') }}"
                    class="text-sm leading-6 text-gray-600 hover:text-gray-900">
-                    {{ Lang::get('neo.homepage_title', locale: $locale) }}
+                    {{ word('neo.homepage_title') }}
                 </a>
             </div>
             <div class="pb-6">
-                <a href="{{ route('posts.' . $locale) }}"
+                <a href="{{ local_route('posts') }}"
                    class="text-sm leading-6 text-gray-600 hover:text-gray-900">
-                    {{ Lang::get('neo.posts_title', locale: $locale) }}
+                    {{ word('neo.posts_title') }}
                 </a>
             </div>
             @foreach(\App\Models\Page::getForNavigation($locale) as $page)

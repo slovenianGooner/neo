@@ -25,5 +25,7 @@ class AppServiceProvider extends ServiceProvider
             'panels::global-search.after',
             hook: fn(): string => Blade::render('<livewire:language-switch key=\'fls-in-panels\' />')
         );
+
+        require_once app_path('Helpers.php');
     }
 }

@@ -16,17 +16,19 @@ class ContactUsMail extends Mailable
     public string $email;
     public string $message;
 
-    public function __construct(string $name, string $email, string $message)
+    public function __construct(string $locale, string $name, string $email, string $message)
     {
         $this->name = $name;
         $this->email = $email;
         $this->message = $message;
+
+        app()->setLocale($locale);
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Contact Us Form Submission',
+            subject: word('neo.contact_us_mail_subject')
         );
     }
 

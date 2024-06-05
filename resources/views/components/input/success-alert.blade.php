@@ -1,4 +1,4 @@
-<div class="rounded-md bg-green-50 p-4 not-prose">
+<div {{ $attributes->merge(['class' => 'rounded-md bg-green-50 p-4 not-prose']) }}>
     <div class="flex">
         <div class="flex-shrink-0">
             <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
