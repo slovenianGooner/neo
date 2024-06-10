@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\PageResource\Pages;
+namespace App\Filament\Resources\ProductResource\Pages;
 
 use App\Filament\Resources\PageResource;
-use App\Models\PageTemplates\PageTemplateHelper;
+use App\Filament\Resources\ProductResource;
 use App\Models\Template;
 use App\Models\TemplateHelper;
 use Filament\Forms\Components\Grid;
@@ -13,7 +13,7 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditTemplateData extends EditRecord
 {
-    public static string $resource = PageResource::class;
+    public static string $resource = ProductResource::class;
 
     protected static ?string $navigationLabel = 'Template Data';
 
@@ -34,7 +34,7 @@ class EditTemplateData extends EditRecord
         /**
          * @var Template $template
          */
-        $template = TemplateHelper::getFromValue('Models/PageTemplates', $this->record->template);
+        $template = TemplateHelper::getFromValue('Models/ProductTemplates', $this->record->template);
 
         // We show the template data schema based on selected template
         return $form->schema([

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Scopes\LanguageScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
@@ -20,7 +21,7 @@ class Post extends Model implements HasMedia
     protected static function booted(): void
     {
         static::saving(function (Post $post) {
-            $post->locale = session('locale', 'en');
+            $post->locale = session_locale();
         });
     }
 
@@ -48,6 +49,6 @@ class Post extends Model implements HasMedia
 
     public function getExcerpt(int $length = 100): string
     {
-        return strip_tags(substr($this->body, 0, $length));
+        return Str::of($this->body)->limit($length)->stripTags();
     }
 }

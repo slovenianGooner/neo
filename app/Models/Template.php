@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\PageTemplates;
+namespace App\Models;
 
-interface PageTemplate
+interface Template
 {
     public static function getName(): string;
 

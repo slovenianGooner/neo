@@ -6,6 +6,7 @@ use App\Filament\Actions\MoveAction;
 use App\Filament\Resources\PageResource\Pages;
 use App\Models\Page;
 use App\Models\PageTemplates\PageTemplateHelper;
+use App\Models\TemplateHelper;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -33,7 +34,11 @@ class PageResource extends Resource
                     ->default(true)
                     ->required(),
                 Forms\Components\Toggle::make('homepage')
-                    ->default(true)
+                    ->default(false)
+                    ->columnStart(1)
+                    ->required(),
+                Forms\Components\Toggle::make('products_page')
+                    ->default(false)
                     ->columnStart(1)
                     ->required(),
                 Forms\Components\Select::make('parent_id')
@@ -54,12 +59,11 @@ class PageResource extends Resource
                     ->maxLength(255),
                 TiptapEditor::make('body')
                     ->columnSpanFull()
-                    ->required()
                     ->maxContentWidth('full'),
                 Forms\Components\Select::make('template')
                     ->columnStart(1)
                     ->label('Template')
-                    ->options(PageTemplateHelper::getTemplateOptions()),
+                    ->options(TemplateHelper::getTemplateOptions('Models/PageTemplates')),
             ]);
     }
 
@@ -87,6 +91,8 @@ class PageResource extends Resource
                     ->boolean(),
                 Tables\Columns\IconColumn::make('homepage')
                     ->boolean(),
+                Tables\Columns\IconColumn::make('products_page')
+                    ->boolean()
             ])
             ->filters([
                 //
@@ -124,10 +130,5 @@ class PageResource extends Resource
         ];
 
         return $page->generateNavigationItems($subNavigation);
-    }
-
-    public static function getGloballySearchableAttributes(): array
-    {
-        return ['title', 'slug'];
     }
 }

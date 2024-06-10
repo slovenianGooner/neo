@@ -23,6 +23,7 @@ class Page extends Model implements HasMedia
         'parent_id',
         'active',
         'homepage',
+        'products_page',
         'title',
         'slug',
         'locale',
@@ -34,13 +35,14 @@ class Page extends Model implements HasMedia
     protected $casts = [
         'active' => 'boolean',
         'homepage' => 'boolean',
+        'products_page' => 'boolean',
         'template_data' => 'json'
     ];
 
     protected static function booted(): void
     {
         static::saving(function (Page $page) {
-            $page->locale = session('locale', 'en');
+            $page->locale = session_locale();
         });
     }
 
@@ -61,7 +63,8 @@ class Page extends Model implements HasMedia
 
     public function getSlugOptions(): SlugOptions
     {
-        return SlugOptions::create()->generateSlugsFrom('title')->saveSlugsTo('slug');
+        return SlugOptions::create()->generateSlugsFrom('title')->saveSlugsTo('slug')
+            ->extraScope(fn($builder) => $builder->where('locale', session_locale())->where('parent_id', $this->parent_id));
     }
 
     public function getDepth(): int
@@ -90,6 +93,16 @@ class Page extends Model implements HasMedia
         }
 
         return $this->title;
+    }
+
+    public function getBreadcrumbs(string $locale): string
+    {
+        return $this->getBreadcrumbsArray($locale)->pluck('title')->implode(' / ');
+    }
+
+    public function getBreadcrumbsArray(string $locale): Collection
+    {
+        return $this->ancestors()->withoutGlobalScope(LanguageScope::class)->where('locale', $locale)->get()->push($this);
     }
 
     public function isActive(): bool
@@ -160,6 +173,14 @@ class Page extends Model implements HasMedia
 
     public function getTemplateViewAttribute(): string
     {
-        return $this->template ? 'page-templates.' . $this->template : 'page';
+        if ($this->template) {
+            return 'page-templates.' . $this->template;
+        }
+
+        if ($this->products_page) {
+            return 'page-templates.products';
+        }
+
+        return 'page';
     }
 }

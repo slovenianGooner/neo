@@ -2,10 +2,11 @@
 
 namespace App\Models\PageTemplates;
 
+use App\Models\Template;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 
-class ContactUsPageTemplate implements PageTemplate
+class ContactUsTemplate implements Template
 {
     public static function getName(): string
     {

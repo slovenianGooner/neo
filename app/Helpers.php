@@ -17,3 +17,8 @@ function local_route_is(string $name, array $parameters = []): bool
 {
     return request()->routeIs($name . '.' . View::shared('locale'), $parameters);
 }
+
+function session_locale(): string
+{
+    return session('locale', 'en');
+}

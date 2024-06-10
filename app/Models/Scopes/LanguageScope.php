@@ -13,6 +13,6 @@ class LanguageScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->where('locale', session('locale', 'en'));
+        $builder->where('locale', session_locale());
     }
 }

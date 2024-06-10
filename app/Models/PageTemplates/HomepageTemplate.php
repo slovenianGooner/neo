@@ -2,15 +2,15 @@
 
 namespace App\Models\PageTemplates;
 
+use App\Models\Template;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 
-class HomepageTemplate implements PageTemplate
+class HomepageTemplate implements Template
 {
 
     public static function getName(): string

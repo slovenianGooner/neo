@@ -37,9 +37,9 @@ class LanguageSwitch extends Component
         return count($this->availableLocales()) > 1;
     }
 
-    public function selectedLocale()
+    public function selectedLocale(): string
     {
-        return session('locale', 'en');
+        return session_locale();
     }
 
     public function selectedLocaleLabel(): string
