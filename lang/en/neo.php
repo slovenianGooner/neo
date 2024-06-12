@@ -17,4 +17,9 @@ return [
     'contact_us_mail_subject' => 'New Contact Us Form Submission',
     'contact_us_mail_message' => 'You have received a new contact us form submission.',
     'thanks' => 'Thanks',
+    'filters' => 'Filters',
+    'products' => 'Products',
+    'size' => 'Size',
+    'color' => 'Color',
+    'reset_filter' => 'Reset Filter',
 ];

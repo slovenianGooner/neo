@@ -17,4 +17,9 @@ return [
     'contact_us_mail_subject' => 'Novo sporočilo preko kontaktnega obrazca',
     'contact_us_mail_message' => 'Prejeli ste novo sporočilo preko kontaktnega obrazca.',
     'thanks' => 'Hvala',
+    'filters' => 'Filtri',
+    'products' => 'Izdelki',
+    'size' => 'Velikost',
+    'color' => 'Barva',
+    'reset_filter' => 'Ponastavi filtre',
 ];

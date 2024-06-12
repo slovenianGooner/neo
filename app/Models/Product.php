@@ -107,16 +107,21 @@ class Product extends Model implements HasMedia
 
     public function getPrice(): ?Price
     {
-        // Active price can be one of the following
-        // 1. Price with valid_from <= now and valid_to >= now
-        // 2. Price with valid_from <= now and valid_to = null
-        // 3. Price with valid_from = null and valid_to >= now
         return $this->prices()->where(function ($query) {
             $query->where('valid_from', '<=', now())->where('valid_to', '>=', now());
-        })->orWhere(function ($query) {
-            $query->where('valid_from', '<=', now())->whereNull('valid_to');
-        })->orWhere(function ($query) {
-            $query->whereNull('valid_from')->where('valid_to', '>=', now());
         })->first();
+    }
+
+    public function scopeFilteredBy(Builder $query, ?array $filters): Builder
+    {
+        if (count($filters['size'])) {
+            $query->whereHas('specifications', fn($query) => $query->whereHas('type', fn($query) => $query->where('name', 'Size'))->whereIn('value', $filters['size']));
+        }
+
+        if (count($filters['color'])) {
+            $query->whereHas('specifications', fn($query) => $query->whereHas('type', fn($query) => $query->where('name', 'Color'))->whereIn('value', $filters['color']));
+        }
+
+        return $query;
     }
 }

@@ -23,7 +23,7 @@ class ContactUsForm extends Component
 
     public string $successMessage = '';
 
-    protected function getMessages()
+    protected function getMessages(): array
     {
         return [
             'name.required' => word('neo.name_required'),
