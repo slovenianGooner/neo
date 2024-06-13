@@ -3,7 +3,6 @@
 use App\Http\Middleware\EnsureLanguageIsApplied;
 use App\Models\Page;
 use App\Models\Post;
-use App\Models\Product;
 use App\Models\Scopes\LanguageScope;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
@@ -40,13 +39,6 @@ try {
                 Route::get(Lang::get('neo.posts_slug', locale: $locale), fn() => view('posts', [
                     'posts' => Post::withoutGlobalScope(LanguageScope::class)->where('locale', $locale)->latest()->paginate()
                 ]))->name('posts.' . $locale);
-
-                // Route for every product
-                foreach (Product::withoutGlobalScope(LanguageScope::class)->where('locale', $locale)->with('category')->get() as $product) {
-                    Route::get($product->category->getNestedSlug($locale) . '/' . $product->slug, fn() => view($product->template_view, [
-                        'product' => $product
-                    ]))->name($product->getRouteName());
-                }
             });
         }
     }
