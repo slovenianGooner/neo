@@ -16,6 +16,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Table;
 use Filament\Tables;
+use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\TiptapEditor;
 
 class PageResource extends Resource
@@ -37,10 +38,6 @@ class PageResource extends Resource
                     ->default(false)
                     ->columnStart(1)
                     ->required(),
-                Forms\Components\Toggle::make('products_page')
-                    ->default(false)
-                    ->columnStart(1)
-                    ->required(),
                 Forms\Components\Select::make('parent_id')
                     ->columnStart(1)
                     ->label('Parent Page')
@@ -58,6 +55,7 @@ class PageResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->maxLength(255),
                 TiptapEditor::make('body')
+                    ->output(TiptapOutput::Json)
                     ->columnSpanFull()
                     ->maxContentWidth('full'),
                 Forms\Components\Select::make('template')
@@ -90,8 +88,6 @@ class PageResource extends Resource
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('homepage')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('products_page')
                     ->boolean()
             ])
             ->filters([

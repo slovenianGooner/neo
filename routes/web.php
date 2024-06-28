@@ -25,7 +25,10 @@ try {
 
                 // Routes for all pages
                 foreach (Page::withoutGlobalScope(LanguageScope::class)->orderBy('_lft')->where('homepage', false)->where('locale', $locale)->get() as $page) {
-                    Route::get($page->getNestedSlug($locale), fn() => view($page->template_view, compact('page')))->name($page->getRouteName());
+                    Route::get($page->getNestedSlug($locale), function () use($page) {
+                        app()->bind('modelInstance', fn() => $page->load('media'));
+                        return view($page->template_view, compact('page'));
+                    })->name($page->getRouteName());
                 }
 
                 // Route for every post

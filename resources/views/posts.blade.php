@@ -1,7 +1,7 @@
 @use('Illuminate\Support\Facades\Lang')
 
 <x-layout :page-title="Lang::get('neo.posts_title', locale: $locale)">
-    <div class="bg-white py-24 sm:py-32 max-w-7xl mx-auto">
+    <div class="bg-white py-24 max-w-7xl mx-auto">
         <div class="px-6 lg:px-8">
             <div>
                 <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{{ Lang::get('neo.posts_title', locale: $locale) }}</h2>

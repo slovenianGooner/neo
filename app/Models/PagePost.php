@@ -22,6 +22,7 @@ class PagePost extends Model implements HasMedia
 
     protected $casts = [
         'published' => 'boolean',
+        'body' => 'json'
     ];
 
     public static function booted(): void

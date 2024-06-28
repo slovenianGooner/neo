@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use FilamentTiptapEditor\Enums\TiptapOutput;
 use FilamentTiptapEditor\TiptapEditor;
 
 class PostResource extends Resource
@@ -36,6 +37,7 @@ class PostResource extends Resource
                     ->imageResizeTargetHeight(800)
                     ->required(),
                 TiptapEditor::make('body')
+                    ->output(TiptapOutput::Json)
                     ->columnSpanFull()
                     ->maxContentWidth('full')
                     ->required(),

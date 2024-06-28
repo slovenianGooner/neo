@@ -36,7 +36,8 @@ class Page extends Model implements HasMedia
         'active' => 'boolean',
         'homepage' => 'boolean',
         'products_page' => 'boolean',
-        'template_data' => 'json'
+        'template_data' => 'json',
+        'body' => 'json'
     ];
 
     protected static function booted(): void

@@ -18,6 +18,8 @@ class Post extends Model implements HasMedia
 
     protected $fillable = ['published', 'title', 'slug', 'locale', 'body'];
 
+    protected $casts = ['published' => 'boolean', 'body' => 'json'];
+
     protected static function booted(): void
     {
         static::saving(function (Post $post) {

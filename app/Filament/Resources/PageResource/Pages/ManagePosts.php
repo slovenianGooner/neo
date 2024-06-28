@@ -32,6 +32,7 @@ class ManagePosts extends ManageRelatedRecords
                     ->required()
                     ->maxLength(255),
                 TiptapEditor::make('body')
+                    ->output(TiptapOutput::Json)
                     ->columnSpanFull()
                     ->maxContentWidth('full')
                     ->required(),

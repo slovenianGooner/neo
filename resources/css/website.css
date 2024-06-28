@@ -5,3 +5,9 @@
 [x-cloak] {
     display: none;
 }
+
+.filament-tiptap-grid-builder {
+    display: grid;
+    gap: 1rem;
+    box-sizing: border-box;
+}

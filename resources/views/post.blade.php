@@ -19,7 +19,7 @@
             @endif
             <div
                 class="prose glightbox-img-content max-w-none mt-6 [&>p>img]:cursor-pointer">
-                {!! $post->body !!}
+                {!! tiptap_converter()->asHTML($post->body) !!}
             </div>
             <x-gallery :gallery="$post->getMedia('gallery')"/>
             <x-files :files="$post->getMedia('files')"/>
