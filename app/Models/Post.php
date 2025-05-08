@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\LanguageScope;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
@@ -11,7 +9,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-#[ScopedBy([LanguageScope::class])]
 class Post extends Model implements HasMedia
 {
     use HasSlug, InteractsWithMedia;

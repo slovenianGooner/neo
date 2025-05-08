@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\LanguageScope;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
@@ -14,7 +12,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-#[ScopedBy([LanguageScope::class])]
 class Page extends Model implements HasMedia
 {
     use HasSlug, NodeTrait, InteractsWithMedia;
@@ -49,7 +46,9 @@ class Page extends Model implements HasMedia
 
     public function rootParent(): ?Model
     {
-        return $this->ancestors()->first() ?? $this;
+        return $this->ancestors()
+            ->where("locale", app()->getLocale())
+            ->first() ?? $this;
     }
 
     public function posts(): HasMany
@@ -80,7 +79,7 @@ class Page extends Model implements HasMedia
 
     public function getNestedSlug(string $locale): string
     {
-        return $this->ancestors()->withoutGlobalScope(LanguageScope::class)->where('locale', $locale)->pluck('slug')->push($this->slug)->implode('/');
+        return $this->ancestors()->where('locale', $locale)->pluck('slug')->push($this->slug)->implode('/');
     }
 
     public function getIndentedTitle(int $startingDepth = 0): string
@@ -103,7 +102,7 @@ class Page extends Model implements HasMedia
 
     public function getBreadcrumbsArray(string $locale): Collection
     {
-        return $this->ancestors()->withoutGlobalScope(LanguageScope::class)->where('locale', $locale)->get()->push($this);
+        return $this->ancestors()->where('locale', $locale)->get()->push($this);
     }
 
     public function isActive(): bool
@@ -158,7 +157,7 @@ class Page extends Model implements HasMedia
 
     public static function getForNavigation(string $locale, ?int $parentId = null): Collection
     {
-        return static::withoutGlobalScope(LanguageScope::class)
+        return static::query()
             ->where('active', true)
             ->where('parent_id', $parentId)
             ->where('homepage', false)
@@ -169,7 +168,7 @@ class Page extends Model implements HasMedia
 
     public static function getHomepage(string $locale): ?self
     {
-        return static::withoutGlobalScope(LanguageScope::class)->where('homepage', true)->where('locale', $locale)->first();
+        return static::query()->where('homepage', true)->where('locale', $locale)->first();
     }
 
     public function getTemplateViewAttribute(): string

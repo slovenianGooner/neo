@@ -24,7 +24,7 @@ try {
                 Route::get('/', fn() => view($homepage->template_view ?? 'welcome', ['page' => $homepage]))->name('home.' . $locale);
 
                 // Routes for all pages
-                foreach (Page::withoutGlobalScope(LanguageScope::class)->orderBy('_lft')->where('homepage', false)->where('locale', $locale)->get() as $page) {
+                foreach (Page::query()->orderBy('_lft')->where('homepage', false)->where('locale', $locale)->get() as $page) {
                     Route::get($page->getNestedSlug($locale), function () use($page) {
                         app()->bind('modelInstance', fn() => $page->load('media'));
                         return view($page->template_view, compact('page'));
@@ -32,7 +32,7 @@ try {
                 }
 
                 // Route for every post
-                foreach (Post::withoutGlobalScope(LanguageScope::class)->where('locale', $locale)->get() as $post) {
+                foreach (Post::query()->where('locale', $locale)->get() as $post) {
                     Route::get(Lang::get('neo.posts_slug', locale: $locale) . '/' . $post->slug, fn() => view('post', [
                         'post' => $post
                     ]))->name($post->getRouteName());
@@ -40,7 +40,7 @@ try {
 
                 // Route for all posts
                 Route::get(Lang::get('neo.posts_slug', locale: $locale), fn() => view('posts', [
-                    'posts' => Post::withoutGlobalScope(LanguageScope::class)->where('locale', $locale)->latest()->paginate()
+                    'posts' => Post::query()->where('locale', $locale)->latest()->paginate()
                 ]))->name('posts.' . $locale);
             });
         }

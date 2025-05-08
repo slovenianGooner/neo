@@ -16,7 +16,9 @@ class EnsureLanguageIsApplied
         if (!array_key_exists($locale, config('neo.locales'))) {
             $locale = null;
         }
-        View::share('locale', $locale ?? config('neo.default_locale'));
+        $locale = $locale ?? config("neo.default_locale");
+        app()->setLocale($locale);
+        View::share("locale", $locale);
         View::share('hasMultipleLocales', count(config('neo.locales')) > 1);
         return $next($request);
     }

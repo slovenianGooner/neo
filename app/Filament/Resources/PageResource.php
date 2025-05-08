@@ -69,7 +69,7 @@ class PageResource extends Resource
     {
         return $table
             ->modifyQueryUsing(function ($query) {
-                $query->orderBy('_lft');
+                $query->orderBy('_lft')->where('locale', session_locale());
             })
             ->paginated(false)
             ->columns([
